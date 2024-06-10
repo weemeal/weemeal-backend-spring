@@ -1,8 +1,12 @@
 package de.weemeal.backend.adapter.out
 
+import de.weemeal.backend.adapter.out.persistence.RecipeRepository
+import de.weemeal.backend.adapter.out.persistence.entities.RecipeEntity
 import de.weemeal.backend.domain.model.Recipe
 import de.weemeal.backend.domain.ports.out.RecipeRepositoryPort
+import org.springframework.stereotype.Component
 
+@Component
 class RecipePostgresAdapter(private val recipeRepository: RecipeRepository) : RecipeRepositoryPort {
 
     override fun findAllRecipes(): List<Recipe> {
@@ -20,7 +24,7 @@ fun RecipeEntity.toDomain(): Recipe {
         name = this.name,
         recipeYield = this.recipeYield,
         recipeInstructions = this.recipeInstructions,
-        ingredients = this.ingredients,
+//        ingredients = this.ingredients,
     )
 }
 
@@ -38,6 +42,6 @@ fun Recipe.toEntity(): RecipeEntity {
         name = this.name,
         recipeYield = this.recipeYield,
         recipeInstructions = this.recipeInstructions,
-        ingredients = this.ingredients,
+//        ingredients = this.ingredients,
     )
 }

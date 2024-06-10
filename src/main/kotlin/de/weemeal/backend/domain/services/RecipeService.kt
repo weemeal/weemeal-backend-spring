@@ -3,7 +3,9 @@ package de.weemeal.backend.domain.services
 import de.weemeal.backend.domain.model.Recipe
 import de.weemeal.backend.domain.ports.`in`.RecipePort
 import de.weemeal.backend.domain.ports.out.RecipeRepositoryPort
+import org.springframework.stereotype.Service
 
+@Service
 class RecipeService(private val recipeRepositoryPort: RecipeRepositoryPort) : RecipePort {
 
     override fun getAllRecipes(): List<Recipe> {

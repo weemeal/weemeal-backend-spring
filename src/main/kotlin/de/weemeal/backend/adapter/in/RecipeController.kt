@@ -9,14 +9,31 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.UUID
 
 @RestController
-@RequestMapping("/api/recipes")
+@RequestMapping("/api/recipes/")
 class RecipeController(private val recipePort: RecipePort) {
 
-    @GetMapping("")
-    fun getAllRecipes(): List<Recipe> {
-        return recipePort.getAllRecipes()
+    @GetMapping
+    fun getAllRecipes(): ResponseEntity<List<Recipe>> {
+        return ResponseEntity.status(HttpStatus.OK).body(recipePort.getAllRecipes())
+    }
+
+    @GetMapping("2")
+    fun getAllRecipess(): ResponseEntity<List<Recipe>> {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            listOf(
+                Recipe(recipeId = UUID.randomUUID()),
+                Recipe(recipeId = UUID.randomUUID()),
+                Recipe(recipeId = UUID.randomUUID()),
+            )
+        )
+    }
+
+    @GetMapping("/test")
+    fun getAllRecipes2(): String {
+        return "Hallo"
     }
 
     @PostMapping("")
