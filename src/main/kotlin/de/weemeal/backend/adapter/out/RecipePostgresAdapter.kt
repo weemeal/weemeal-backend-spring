@@ -1,9 +1,9 @@
 package de.weemeal.backend.adapter.out
 
 import de.weemeal.backend.adapter.out.persistence.RecipeRepository
-import de.weemeal.backend.adapter.out.persistence.entities.RecipeEntity
+import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity
 import de.weemeal.backend.domain.model.Recipe
-import de.weemeal.backend.domain.ports.out.RecipeRepositoryPort
+import de.weemeal.backend.domain.port.out.RecipeRepositoryPort
 import org.springframework.stereotype.Component
 
 @Component

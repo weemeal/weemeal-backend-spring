@@ -1,7 +1,7 @@
 package de.weemeal.backend.adapter.`in`
 
 import de.weemeal.backend.domain.model.Recipe
-import de.weemeal.backend.domain.ports.`in`.RecipePort
+import de.weemeal.backend.domain.port.`in`.RecipePort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

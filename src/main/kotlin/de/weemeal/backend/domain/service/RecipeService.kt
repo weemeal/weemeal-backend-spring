@@ -1,8 +1,8 @@
-package de.weemeal.backend.domain.services
+package de.weemeal.backend.domain.service
 
 import de.weemeal.backend.domain.model.Recipe
-import de.weemeal.backend.domain.ports.`in`.RecipePort
-import de.weemeal.backend.domain.ports.out.RecipeRepositoryPort
+import de.weemeal.backend.domain.port.`in`.RecipePort
+import de.weemeal.backend.domain.port.out.RecipeRepositoryPort
 import org.springframework.stereotype.Service
 
 @Service

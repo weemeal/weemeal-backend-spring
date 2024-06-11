@@ -1,4 +1,4 @@
-package de.weemeal.backend.domain.ports.`in`
+package de.weemeal.backend.domain.port.`in`
 
 import de.weemeal.backend.domain.model.Recipe
 
