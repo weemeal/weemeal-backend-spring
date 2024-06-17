@@ -5,16 +5,26 @@ import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity
 import de.weemeal.backend.domain.model.Recipe
 import de.weemeal.backend.domain.port.out.RecipeRepositoryPort
 import org.springframework.stereotype.Component
+import java.util.UUID
+import kotlin.jvm.optionals.getOrNull
 
 @Component
 class RecipePostgresAdapter(private val recipeRepository: RecipeRepository) : RecipeRepositoryPort {
 
-    override fun findAllRecipes(): List<Recipe> {
+    override fun save(recipe: Recipe): Recipe {
+        return recipeRepository.save(recipe.toEntity()).toDomain()
+    }
+
+    override fun findRecipe(recipeId: UUID): Recipe? {
+        return recipeRepository.findById(recipeId).getOrNull()?.toDomain()
+    }
+
+    override fun findAllRecipes(): List<Recipe>? {
         return recipeRepository.findAll().toList().toRecipeListDomain()
     }
 
-    override fun save(recipe: Recipe): Recipe {
-        return recipeRepository.save(recipe.toEntity()).toDomain()
+    override fun deleteRecipe(recipeId: UUID) {
+        return recipeRepository.deleteById(recipeId)
     }
 }
 
@@ -24,7 +34,7 @@ fun RecipeEntity.toDomain(): Recipe {
         name = this.name,
         recipeYield = this.recipeYield,
         recipeInstructions = this.recipeInstructions,
-//        ingredients = this.ingredients,
+        ingredients = this.ingredients,
     )
 }
 
@@ -42,6 +52,6 @@ fun Recipe.toEntity(): RecipeEntity {
         name = this.name,
         recipeYield = this.recipeYield,
         recipeInstructions = this.recipeInstructions,
-//        ingredients = this.ingredients,
+        ingredients = this.ingredients,
     )
 }

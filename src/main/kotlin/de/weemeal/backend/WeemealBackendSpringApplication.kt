@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 @SpringBootApplication
 @ComponentScan(basePackages = ["de.weemeal.backend"])
 @EnableJpaRepositories(basePackages = ["de.weemeal.backend.adapter.out.persistence"])
-@EntityScan("de.weemeal.backend.adapter.out.persistence.entities")
+@EntityScan("de.weemeal.backend.adapter.out.persistence.entity")
 class WeemealBackendSpringApplication
 
 fun main(args: Array<String>) {

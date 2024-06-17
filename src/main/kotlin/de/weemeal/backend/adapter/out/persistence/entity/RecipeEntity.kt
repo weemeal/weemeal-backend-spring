@@ -12,12 +12,9 @@ import java.util.UUID
 data class RecipeEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    var recipeId: UUID,
-
+    var recipeId: UUID?,
     var name: String? = null,
     var recipeYield: Int? = null,
     var recipeInstructions: String? = null,
-
-//    @Transient
-//    var ingredients: List<String>? = null,
+    var ingredients: List<String>? = null,
 )
