@@ -25,9 +25,5 @@ jobs:
         run: pack build docker.io/darthkali/${{ env.IMAGE_NAME }}:${{ github.event.release.tag_name }}
           --tag docker.io/darthkali/${{ env.IMAGE_NAME }}:latest
           --builder paketobuildpacks/builder:base
+          --env "BP_JVM_VERSION=21"
           --publish
-        
-
-
-
-
