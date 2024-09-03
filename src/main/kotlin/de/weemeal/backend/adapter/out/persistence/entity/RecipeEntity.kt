@@ -7,6 +7,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 import java.util.UUID
 
+//https://schema.org/Recipe
 @Entity
 @Table(name = "recipe")
 data class RecipeEntity(
