@@ -15,7 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
-@CrossOrigin(origins = ["http://localhost:3000/"])
+@CrossOrigin(
+    origins = [
+        "http://localhost:3000/",
+        "http://localhost:3003/",
+        "http://192.168.178.36:4026/",
+        "https://weemeal.darthkali.duckdns.org/"
+    ]
+)
+
 @RestController
 @RequestMapping("/api/recipes/")
 class RecipeController(private val recipePort: RecipePort) {
@@ -31,7 +39,7 @@ class RecipeController(private val recipePort: RecipePort) {
         @PathVariable("id") recipeId: String,
     ): ResponseEntity<Recipe> {
         val recipe = recipePort.getRecipe(recipeId = UUID.fromString(recipeId))
-         return ResponseEntity.ok(recipe)
+        return ResponseEntity.ok(recipe)
     }
 
     @GetMapping
