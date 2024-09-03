@@ -7,8 +7,9 @@ services:
     ports: # port exposed to the host machine
       - "5432:5432"
     volumes: # volume used to persist data
-      - ~/apps/postgres:/var/lib/postgresql/data
+      - /db/:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_DB=postgres
+
