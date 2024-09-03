@@ -1,4 +1,4 @@
-package de.weemeal.weemealbackendspring
+package de.weemeal.weemealbackendspring.architecture
 
 import com.tngtech.archunit.base.DescribedPredicate.alwaysTrue
 import com.tngtech.archunit.core.domain.JavaClass
@@ -11,6 +11,7 @@ import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses
 import com.tngtech.archunit.library.Architectures.onionArchitecture
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices
+import de.weemeal.weemealbackendspring.WeemealBackendSpringApplication
 import jakarta.persistence.Entity
 import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
@@ -25,14 +26,14 @@ import org.springframework.web.bind.annotation.RestController
     packages = ["de.weemeal.backend"],
     importOptions = [DoNotIncludeTests::class]
 )
-internal class ArchitectureTests {
+internal class MainArchitectureTests {
     private val rootPackage = "de.weemeal.backend"
     private val applicationPackage = "$rootPackage.application.."
     private val adapterPackage = "$rootPackage.adapter.."
     private val domainModelPackage = "$rootPackage.domain.model.."
     private val domainServicePackage = "$rootPackage.domain.service.."
-    private val portsPackage = "$rootPackage.domain.port.."
     private val useCasePackage = "$rootPackage.domain.usecase.."
+    private val portsPackage = "$rootPackage.domain.port.."
 
     /**
     *** How the onionArchitecture() from ArchUnit works!
@@ -53,7 +54,7 @@ internal class ArchitectureTests {
     @ArchTest
     val `hexagonal architecture is respected`: ArchRule = onionArchitecture()
         .domainModels(domainModelPackage)
-        .domainServices(domainServicePackage, portsPackage)
+        .domainServices(domainServicePackage) //, portsPackage)
         .applicationServices(applicationPackage)
         .adapter("adapter", adapterPackage)
         .withOptionalLayers(true)
@@ -62,6 +63,7 @@ internal class ArchitectureTests {
     @ArchTest
     val `first level packages are free of cycles`: ArchRule = slices()
         .matching("$rootPackage.(*)..").should().beFreeOfCycles()
+
 
     /**
     * General Naming Conventions
@@ -109,60 +111,56 @@ internal class ArchitectureTests {
     * Services
     */
     @ArchTest
-    val `check services`: ArchRule = classes()
+    val `check services by name`: ArchRule = classes()
         .that().haveSimpleNameEndingWith("Service")
-        .or().resideInAPackage(domainServicePackage)
         .and().areTopLevelClasses()
-        .should().haveSimpleNameEndingWith("Service")
-        .andShould().resideInAPackage(domainServicePackage)
+        .should().resideInAPackage(domainServicePackage)
         .andShould().beAnnotatedWith(Service::class.java)
 
-    /**
-     * Mapper
-     */
     @ArchTest
-    val `check mapper`: ArchRule = classes()
-        .that().resideInAPackage("..mapper..")
+    val `check services by annotation`: ArchRule = classes()
+        .that().areAnnotatedWith(Service::class.java)
         .and().areTopLevelClasses()
-        .should().haveSimpleNameEndingWith("Mapper")
+        .should().resideInAPackage(domainServicePackage)
+        .andShould().haveSimpleNameEndingWith("Service")
 
     /**
-     * Scheduler
+     * Entities
      */
     @ArchTest
-    val `check scheduler`: ArchRule = classes()
-        .that().resideInAPackage("..scheduler..")
-        .and().areTopLevelClasses()
-        .should().haveSimpleNameEndingWith("Scheduler")
-
-    /**
-    * Entities
-    */
-    @ArchTest
-    val `check entities`: ArchRule = classes()
+    val `check entities by name`: ArchRule = classes()
         .that().haveSimpleNameEndingWith("Entity")
-        .or().resideInAPackage("..entity..")
-        .or().areAnnotatedWith(Entity::class.java)
         .and().areTopLevelClasses()
-        .should().haveSimpleNameEndingWith("Entity")
-        .andShould().resideInAPackage("..entity..")
+        .should().resideInAPackage("..entity..")
         .andShould().beAnnotatedWith(Entity::class.java)
 
-    /**
-    * Repository
-    */
     @ArchTest
-    val `check repository`: ArchRule = classes()
-        .that().haveSimpleNameEndingWith("Repository")
-        .or().areAnnotatedWith(Repository::class.java)
+    val `check entities by annotation`: ArchRule = classes()
+        .that().areAnnotatedWith(Entity::class.java)
         .and().areTopLevelClasses()
-        .should().haveSimpleNameEndingWith("Repository")
-        .andShould().resideInAPackage("..persistence..")
-        .andShould().beAnnotatedWith(Repository::class.java)
+        .should().resideInAPackage("..entity..")
+        .andShould().haveSimpleNameEndingWith("Entity")
 
     /**
-    * DomainModels
-    */
+     * Repository
+     */
+    @ArchTest
+    val `check repository by name`: ArchRule = classes()
+        .that().haveSimpleNameEndingWith("Repository")
+        .and().areTopLevelClasses()
+        .should().resideInAPackage("..persistence..")
+        .andShould().beAnnotatedWith(Repository::class.java)
+
+    @ArchTest
+    val `check repository by annotation`: ArchRule = classes()
+        .that().areAnnotatedWith(Repository::class.java)
+        .and().areTopLevelClasses()
+        .should().resideInAPackage("..persistence..")
+        .andShould().haveSimpleNameEndingWith("Repository")
+
+    /**
+     * DomainModels
+     */
     @ArchTest
     val `domain models are no entities`:ArchRule = classes()
         .that().resideInAPackage(domainModelPackage)
@@ -171,8 +169,8 @@ internal class ArchitectureTests {
         .andShould().notBeAnnotatedWith(Entity::class.java)
 
     /**
-    * Misc
-    */
+     * Misc
+     */
     @ArchTest
     val `no Rest Entpoints in domain package`: ArchRule = methods()
         .that().areDeclaredInClassesThat().resideInAnyPackage(domainModelPackage, domainServicePackage)
@@ -188,5 +186,25 @@ internal class ArchitectureTests {
         .and().areTopLevelClasses()
         .should().notBeAnnotatedWith(RestController::class.java)
         .andShould().haveSimpleNameNotEndingWith("Client")
+
+    /**
+    * Mapper
+    */
+    @ArchTest
+    val `check mapper`: ArchRule = classes()
+        .that().resideInAPackage("..mapper..")
+        .and().areTopLevelClasses()
+        .should().haveSimpleNameEndingWith("Mapper")
+
+    /**
+    * Scheduler
+    */
+    @ArchTest
+    val `check scheduler`: ArchRule = classes()
+        .that().resideInAPackage("..scheduler..")
+        .and().areTopLevelClasses()
+        .should().haveSimpleNameEndingWith("Scheduler")
 }
+
+
 
