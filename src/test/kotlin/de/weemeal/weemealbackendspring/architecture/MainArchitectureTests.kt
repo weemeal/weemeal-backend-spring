@@ -54,7 +54,7 @@ internal class MainArchitectureTests {
     @ArchTest
     val `hexagonal architecture is respected`: ArchRule = onionArchitecture()
         .domainModels(domainModelPackage)
-        .domainServices(domainServicePackage) //, portsPackage)
+        .domainServices(domainServicePackage, portsPackage)
         .applicationServices(applicationPackage)
         .adapter("adapter", adapterPackage)
         .withOptionalLayers(true)

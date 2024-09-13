@@ -7,5 +7,5 @@ data class Recipe(
     var name: String? = null,
     var recipeYield: Int? = null,
     var recipeInstructions: String? = null,
-    var ingredients: List<String>? = null,
+    var ingredients: List<Ingredient>? = null,
 )

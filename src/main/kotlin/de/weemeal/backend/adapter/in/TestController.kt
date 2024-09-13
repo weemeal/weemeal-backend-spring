@@ -1,5 +1,6 @@
 package de.weemeal.backend.adapter.`in`
 
+import de.weemeal.backend.domain.model.Ingredient
 import de.weemeal.backend.domain.model.Recipe
 import de.weemeal.backend.domain.port.`in`.RecipePort
 import org.springframework.http.HttpStatus
@@ -21,7 +22,26 @@ class TestController(private val recipePort: RecipePort) {
             name = "Statisches Rezept",
             recipeYield = 4,
             recipeInstructions = "Mische alle Zutaten zusammen und koche für 20 Minuten.",
-            ingredients = listOf("Zutat 1", "Zutat 2", "Zutat 3")
+            ingredients = listOf(
+                Ingredient(
+                    ingredientId = UUID.randomUUID(),
+                    ingredientName = "Zucker",
+                    amount = "5",
+                    unit = "g"
+                ),
+                Ingredient(
+                    ingredientId = UUID.randomUUID(),
+                    ingredientName = "Mehl",
+                    amount = "500",
+                    unit = "ml"
+                ),
+                Ingredient(
+                    ingredientId = UUID.randomUUID(),
+                    ingredientName = "Trauben",
+                    amount = "30",
+                    unit = "Stück"
+                )
+            )
         )
         return ResponseEntity.ok(staticRecipe)
     }
@@ -33,7 +53,20 @@ class TestController(private val recipePort: RecipePort) {
             name = "TestRezept",
             recipeYield = 2,  // Statischer Wert
             recipeInstructions = "Kochen für 15 Minuten.",
-            ingredients = listOf("Zutat A", "Zutat B")
+            ingredients = listOf(
+                Ingredient(
+                ingredientId = UUID.randomUUID(),
+                ingredientName = "Zucker",
+                amount = "5",
+                unit = "g"
+            ),
+                Ingredient(
+                    ingredientId = UUID.randomUUID(),
+                    ingredientName = "Mehl",
+                    amount = "500",
+                    unit = "ml"
+                )
+            )
         )
         val savedRecipe = recipePort.saveRecipe(newRecipe)
         return ResponseEntity(savedRecipe, HttpStatus.CREATED)

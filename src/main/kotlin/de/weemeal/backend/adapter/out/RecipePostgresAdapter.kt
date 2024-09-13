@@ -1,7 +1,9 @@
 package de.weemeal.backend.adapter.out
 
 import de.weemeal.backend.adapter.out.persistence.RecipeRepository
+import de.weemeal.backend.adapter.out.persistence.entity.IngredientEntity
 import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity
+import de.weemeal.backend.domain.model.Ingredient
 import de.weemeal.backend.domain.model.Recipe
 import de.weemeal.backend.domain.port.out.RecipeRepositoryPort
 import org.springframework.stereotype.Component
@@ -34,7 +36,7 @@ fun RecipeEntity.toDomain(): Recipe {
         name = this.name,
         recipeYield = this.recipeYield,
         recipeInstructions = this.recipeInstructions,
-        ingredients = this.ingredients,
+        ingredients = this.ingredients?.toIngredientListDomain(),
     )
 }
 
@@ -46,12 +48,21 @@ fun List<RecipeEntity>.toRecipeListDomain(): List<Recipe> {
     return recipeList
 }
 
+fun List<Ingredient>.toIngredientListEntity(recipe: Recipe): List<IngredientEntity> {
+    val ingredientList = mutableListOf<IngredientEntity>()
+    this.forEach { ingredientEntity ->
+        ingredientList.add(ingredientEntity.toEntity(recipe))
+    }
+    return ingredientList
+}
+
 fun Recipe.toEntity(): RecipeEntity {
+
     return RecipeEntity(
         recipeId = this.recipeId,
         name = this.name,
         recipeYield = this.recipeYield,
         recipeInstructions = this.recipeInstructions,
-        ingredients = this.ingredients,
+        ingredients = this.ingredients?.toIngredientListEntity(this),
     )
 }
