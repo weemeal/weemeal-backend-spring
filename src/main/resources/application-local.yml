@@ -1,6 +1,6 @@
 spring:
   application:
-    name : weemeal-backend-spring
+    name: weemeal-backend-spring
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
@@ -11,3 +11,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+cors:
+  allowed-origins:
+    - "http://localhost:3000/"
+    - "http://localhost:3003/"
+    - "http://192.168.1.1:4026/"
+    - "https://weemeal.de/"
+  allowed-methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "DELETE"
