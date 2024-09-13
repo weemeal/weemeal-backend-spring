@@ -11,7 +11,7 @@ import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses
 import com.tngtech.archunit.library.Architectures.onionArchitecture
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices
-import de.weemeal.weemealbackendspring.WeemealBackendSpringApplication
+import de.weemeal.backend.WeemealBackendSpringApplication
 import jakarta.persistence.Entity
 import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
