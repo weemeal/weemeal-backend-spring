@@ -1,7 +1,7 @@
-import de.weemeal.backend.WeemealBackendSpringApplication
-import de.weemeal.backend.adapter.out.RecipePostgresAdapter
-import de.weemeal.backend.domain.model.Ingredient
-import de.weemeal.backend.domain.model.Recipe
+package de.weemeal.backend.adapter.out
+
+import de.weemeal.backend.testdata.IngredientTestData
+import de.weemeal.backend.testdata.RecipeTestData
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
-@SpringBootTest(classes = [WeemealBackendSpringApplication::class])
+@SpringBootTest
 @ActiveProfiles("test")
 @Transactional
 class RecipePostgresAdapterIntegrationTest {
@@ -21,24 +20,25 @@ class RecipePostgresAdapterIntegrationTest {
 
     @Test
     fun `should save and load recipe from database`() {
-        // Arrange
-        val ingredient1 = Ingredient(UUID.randomUUID(), "Tomato", "g", "2")
-        val ingredient2 = Ingredient(UUID.randomUUID(), "Salt", "ml", "1")
-        val ingredients = listOf(ingredient1, ingredient2)
 
-        val recipe = Recipe(UUID.randomUUID(), "Test Recipe", 4, "Instructions",ingredients)
+        val tomato = IngredientTestData().fullyBuild().ingredientName("Tomaten").unit("g").amount("2").build()
+        val salt = IngredientTestData().fullyBuild().ingredientName("Salz").unit("ml").amount("1").build()
 
-        // Act
+        val recipe = RecipeTestData().fullyBuild()
+            .name("Test Recipe")
+            .recipeYield(4)
+            .recipeInstructions("Instructions")
+            .ingredients(listOf(tomato, salt))
+            .build()
+
         val savedRecipe = recipePostgresAdapter.save(recipe)
         val loadedRecipe = savedRecipe.recipeId?.let { recipePostgresAdapter.findRecipe(it) }
 
-        // Assert
         assertNotNull(loadedRecipe)
         assertEquals("Test Recipe", loadedRecipe?.name)
 
-        // Prüfe die Zutaten
         val loadedIngredients = loadedRecipe?.ingredients ?: emptyList()
-        assertEquals("Tomato", loadedIngredients[0].ingredientName)
-        assertEquals("Salt", loadedIngredients[1].ingredientName)
+        assertEquals(tomato.ingredientName, loadedIngredients[0].ingredientName)
+        assertEquals(salt.ingredientName, loadedIngredients[1].ingredientName)
     }
 }

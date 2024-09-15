@@ -1,8 +1,8 @@
 package de.weemeal.backend.domain.service
 
-import de.weemeal.backend.domain.model.Ingredient
 import de.weemeal.backend.domain.model.Recipe
 import de.weemeal.backend.domain.port.out.RecipeRepositoryPort
+import de.weemeal.backend.testdata.IngredientTestData
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -49,18 +49,17 @@ class RecipeServiceTest {
     fun `should update recipe and remove ingredients`() {
         val recipeId = UUID.randomUUID()
 
-        val tomaten =
-            Ingredient(ingredientId = UUID.randomUUID(), ingredientName = "Tomaten", unit = "g", amount = "200")
-        val cheese = Ingredient(ingredientId = UUID.randomUUID(), ingredientName = "Cheese", unit = "ml", amount = "5")
-        val basil = Ingredient(ingredientId = UUID.randomUUID(), ingredientName = "Basil", unit = "stk", amount = "3")
-        val brot = Ingredient(ingredientId = UUID.randomUUID(), ingredientName = "Brot", unit = "stk", amount = "5")
+        val tomatoes = IngredientTestData().fullyBuild().ingredientName("Tomaten").build()
+        val cheese = IngredientTestData().fullyBuild().ingredientName("Käse").build()
+        val basil = IngredientTestData().fullyBuild().ingredientName("Basilikum").build()
+        val bread = IngredientTestData().fullyBuild().ingredientName("Brot").build()
 
         val existingRecipe = Recipe(
             recipeId = recipeId,
             name = "Pizza",
             recipeYield = 5,
             recipeInstructions = "instruction",
-            ingredients = listOf(tomaten, cheese)
+            ingredients = listOf(tomatoes, cheese)
         )
 
         val updatedRecipe = Recipe(
@@ -68,7 +67,7 @@ class RecipeServiceTest {
             name = "Pizza Neu",
             recipeYield = 4,
             recipeInstructions = "instruction auch neu",
-            ingredients = listOf(tomaten, basil, brot)
+            ingredients = listOf(tomatoes, basil, bread)
         )
 
         every { recipeRepositoryPort.findRecipe(recipeId) } returns existingRecipe

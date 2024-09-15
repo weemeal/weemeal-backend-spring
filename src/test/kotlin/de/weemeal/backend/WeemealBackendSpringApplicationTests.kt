@@ -1,12 +1,11 @@
-package de.weemeal.weemealbackendspring
+package de.weemeal.backend
 
-import de.weemeal.backend.WeemealBackendSpringApplication
 import org.junit.jupiter.api.Test
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 
-@SpringBootTest(classes = [WeemealBackendSpringApplication::class])
+@SpringBootTest
 @EnableConfigurationProperties
 @ActiveProfiles("test")
 class WeemealBackendSpringApplicationTests {

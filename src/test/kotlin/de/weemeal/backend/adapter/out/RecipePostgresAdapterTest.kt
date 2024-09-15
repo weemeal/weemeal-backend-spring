@@ -1,10 +1,11 @@
+package de.weemeal.backend.adapter.out
+
 import de.weemeal.backend.adapter.mapper.RecipeMapper.toEntity
-import de.weemeal.backend.adapter.out.RecipePostgresAdapter
 import de.weemeal.backend.adapter.out.persistence.RecipeRepository
 import de.weemeal.backend.adapter.out.persistence.entity.IngredientRepository
 import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity
-import de.weemeal.backend.domain.model.Ingredient
-import de.weemeal.backend.domain.model.Recipe
+import de.weemeal.backend.testdata.IngredientTestData
+import de.weemeal.backend.testdata.RecipeTestData
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -32,7 +33,8 @@ class RecipePostgresAdapterTest {
 
     @Test
     fun `should save a recipe`() {
-        val recipe = Recipe(UUID.randomUUID(), "Test Recipe", 4, "Instructions", emptyList())
+        val recipe = RecipeTestData().fullyBuild().build()
+
         val recipeEntity = recipe.toEntity()
 
         every { recipeRepository.save(recipeEntity) } returns recipeEntity
@@ -45,11 +47,20 @@ class RecipePostgresAdapterTest {
 
     @Test
     fun `should save a recipe with ingredients`() {
-        val ingredient1 = Ingredient(UUID.randomUUID(), "Flour", "2", "cups")
-        val ingredient2 = Ingredient(UUID.randomUUID(), "Sugar", "1", "cup")
-        val ingredients = listOf(ingredient1, ingredient2)
 
-        val recipe = Recipe(UUID.randomUUID(), "Test Recipe", 4, "Instructions", ingredients)
+        val ingredients = listOf(
+            IngredientTestData().fullyBuild().ingredientName("Tomaten").unit("g").amount("2").build(),
+            IngredientTestData().fullyBuild().ingredientName("Salz").unit("ml").amount("1").build(),
+            IngredientTestData().fullyBuild().ingredientName("Brot").unit("kg").amount("100").build(),
+        )
+
+        val recipe = RecipeTestData().fullyBuild()
+            .name("Test Recipe")
+            .recipeYield(4)
+            .recipeInstructions("Instructions")
+            .ingredients(ingredients)
+            .build()
+
         val recipeEntity = recipe.toEntity()
 
         every { recipeRepository.save(recipeEntity) } returns recipeEntity
@@ -62,13 +73,12 @@ class RecipePostgresAdapterTest {
         assertEquals(recipe.recipeInstructions, savedRecipe.recipeInstructions)
         assertEquals(recipe.ingredients.size, savedRecipe.ingredients.size)
 
-        savedRecipe.ingredients.let {
-            assertEquals("Flour", it[0].ingredientName)
-            assertEquals("2", it[0].unit)
-            assertEquals("cups", it[0].amount)
-            assertEquals("Sugar", it[1].ingredientName)
-            assertEquals("1", it[1].unit)
-            assertEquals("cup", it[1].amount)
+        savedRecipe.ingredients.let { savedIngredients ->
+            savedIngredients.forEachIndexed { index, savedIngredient ->
+                assertEquals(savedIngredient.ingredientName, ingredients[index].ingredientName)
+                assertEquals(savedIngredient.amount, ingredients[index].amount)
+                assertEquals(savedIngredient.unit, ingredients[index].unit)
+            }
         }
 
         verify(exactly = 1) { recipeRepository.save(recipeEntity) }
