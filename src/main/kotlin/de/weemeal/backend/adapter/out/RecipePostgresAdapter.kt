@@ -2,8 +2,10 @@ package de.weemeal.backend.adapter.out
 
 import de.weemeal.backend.adapter.mapper.RecipeMapper.toEntity
 import de.weemeal.backend.adapter.out.persistence.RecipeRepository
+import de.weemeal.backend.adapter.out.persistence.entity.IngredientRepository
 import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity.Companion.toDomain
 import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity.Companion.toRecipeListDomain
+import de.weemeal.backend.domain.model.Ingredient
 import de.weemeal.backend.domain.model.Recipe
 import de.weemeal.backend.domain.port.out.RecipeRepositoryPort
 import org.springframework.stereotype.Component
@@ -11,7 +13,10 @@ import java.util.UUID
 import kotlin.jvm.optionals.getOrNull
 
 @Component
-class RecipePostgresAdapter(private val recipeRepository: RecipeRepository) : RecipeRepositoryPort {
+class RecipePostgresAdapter(
+    private val recipeRepository: RecipeRepository,
+    private val ingredientRepository: IngredientRepository,
+) : RecipeRepositoryPort {
 
     override fun save(recipe: Recipe): Recipe {
         return recipeRepository.save(recipe.toEntity()).toDomain()
@@ -28,6 +33,10 @@ class RecipePostgresAdapter(private val recipeRepository: RecipeRepository) : Re
 
     override fun deleteRecipe(recipeId: UUID) {
         return recipeRepository.deleteById(recipeId)
+    }
+
+    override fun removeIngredient(ingredient: Ingredient) {
+        return ingredientRepository.deleteById(ingredient.ingredientId!!)
     }
 }
 

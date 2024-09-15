@@ -54,7 +54,7 @@ data class RecipeEntity(
                 name = this.name,
                 recipeYield = this.recipeYield,
                 recipeInstructions = this.recipeInstructions,
-                ingredients = this.ingredients?.map { it.toDomain() },
+                ingredients = this.ingredients?.map { it.toDomain() } ?: emptyList(),
             )
         }
 

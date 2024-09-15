@@ -8,4 +8,5 @@ interface RecipePort {
     fun getAllRecipes(): List<Recipe>?
     fun getRecipe(recipeId: UUID): Recipe?
     fun deleteRecipe(recipeId: UUID): Boolean
+    fun updateRecipe(updatedRecipe: Recipe): Recipe
 }

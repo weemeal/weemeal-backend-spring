@@ -1,6 +1,7 @@
 import de.weemeal.backend.adapter.mapper.RecipeMapper.toEntity
 import de.weemeal.backend.adapter.out.RecipePostgresAdapter
 import de.weemeal.backend.adapter.out.persistence.RecipeRepository
+import de.weemeal.backend.adapter.out.persistence.entity.IngredientRepository
 import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity
 import de.weemeal.backend.domain.model.Ingredient
 import de.weemeal.backend.domain.model.Recipe
@@ -18,12 +19,14 @@ import java.util.UUID
 class RecipePostgresAdapterTest {
 
     private lateinit var recipeRepository: RecipeRepository
+    private lateinit var ingredientRepository: IngredientRepository
     private lateinit var recipePostgresAdapter: RecipePostgresAdapter
 
     @BeforeEach
     fun setUp() {
         recipeRepository = mock(RecipeRepository::class.java)
-        recipePostgresAdapter = RecipePostgresAdapter(recipeRepository)
+        ingredientRepository = mock(IngredientRepository::class.java)
+        recipePostgresAdapter = RecipePostgresAdapter(recipeRepository, ingredientRepository)
     }
 
     @Test
@@ -56,9 +59,9 @@ class RecipePostgresAdapterTest {
         assertEquals(recipe.name, savedRecipe.name)
         assertEquals(recipe.recipeYield, savedRecipe.recipeYield)
         assertEquals(recipe.recipeInstructions, savedRecipe.recipeInstructions)
-        assertEquals(recipe.ingredients?.size, savedRecipe.ingredients?.size)
+        assertEquals(recipe.ingredients.size, savedRecipe.ingredients.size)
 
-        savedRecipe.ingredients?.let {
+        savedRecipe.ingredients.let {
             assertEquals("Flour", it[0].ingredientName)
             assertEquals("2", it[0].unit)
             assertEquals("cups", it[0].amount)
@@ -91,4 +94,6 @@ class RecipePostgresAdapterTest {
 
         verify(recipeRepository, times(1)).deleteById(recipeId)
     }
+
+
 }
