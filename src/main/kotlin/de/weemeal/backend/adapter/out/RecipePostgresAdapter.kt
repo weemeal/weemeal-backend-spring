@@ -1,7 +1,11 @@
 package de.weemeal.backend.adapter.out
 
+import de.weemeal.backend.adapter.mapper.RecipeMapper.toEntity
 import de.weemeal.backend.adapter.out.persistence.RecipeRepository
-import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity
+import de.weemeal.backend.adapter.out.persistence.entity.IngredientRepository
+import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity.Companion.toDomain
+import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity.Companion.toRecipeListDomain
+import de.weemeal.backend.domain.model.Ingredient
 import de.weemeal.backend.domain.model.Recipe
 import de.weemeal.backend.domain.port.out.RecipeRepositoryPort
 import org.springframework.stereotype.Component
@@ -9,7 +13,10 @@ import java.util.UUID
 import kotlin.jvm.optionals.getOrNull
 
 @Component
-class RecipePostgresAdapter(private val recipeRepository: RecipeRepository) : RecipeRepositoryPort {
+class RecipePostgresAdapter(
+    private val recipeRepository: RecipeRepository,
+    private val ingredientRepository: IngredientRepository,
+) : RecipeRepositoryPort {
 
     override fun save(recipe: Recipe): Recipe {
         return recipeRepository.save(recipe.toEntity()).toDomain()
@@ -21,37 +28,23 @@ class RecipePostgresAdapter(private val recipeRepository: RecipeRepository) : Re
 
     override fun findAllRecipes(): List<Recipe>? {
         return recipeRepository.findAll().toList().toRecipeListDomain()
+
     }
 
     override fun deleteRecipe(recipeId: UUID) {
         return recipeRepository.deleteById(recipeId)
     }
-}
 
-fun RecipeEntity.toDomain(): Recipe {
-    return Recipe(
-        recipeId = this.recipeId,
-        name = this.name,
-        recipeYield = this.recipeYield,
-        recipeInstructions = this.recipeInstructions,
-        ingredients = this.ingredients,
-    )
-}
-
-fun List<RecipeEntity>.toRecipeListDomain(): List<Recipe> {
-    val recipeList = mutableListOf<Recipe>()
-    this.forEach { recipeEntity ->
-        recipeList.add(recipeEntity.toDomain())
+    override fun removeIngredient(ingredient: Ingredient) {
+        return ingredientRepository.deleteById(ingredient.ingredientId!!)
     }
-    return recipeList
 }
 
-fun Recipe.toEntity(): RecipeEntity {
-    return RecipeEntity(
-        recipeId = this.recipeId,
-        name = this.name,
-        recipeYield = this.recipeYield,
-        recipeInstructions = this.recipeInstructions,
-        ingredients = this.ingredients,
-    )
-}
+
+
+
+
+
+
+
+
