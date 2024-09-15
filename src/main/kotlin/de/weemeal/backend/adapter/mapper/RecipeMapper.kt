@@ -11,7 +11,7 @@ object RecipeMapper {
             name = this.name,
             recipeYield = this.recipeYield,
             recipeInstructions = this.recipeInstructions,
-            ingredients = this.ingredients?.map { it.toEntity() }?.toList()
+            ingredients = this.ingredients.map { it.toEntity() }.toList()
         )
     }
 }

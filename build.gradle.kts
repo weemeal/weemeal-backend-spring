@@ -40,12 +40,11 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
+    testImplementation("io.mockk:mockk:1.13.12")
 
     runtimeOnly("com.h2database:h2:2.2.224")
 
 
-    testImplementation("org.mockito:mockito-core:5.13.0")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 }
 
 tasks.withType<KotlinCompile> {

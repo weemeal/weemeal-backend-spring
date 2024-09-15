@@ -5,14 +5,15 @@ import de.weemeal.backend.adapter.out.persistence.entity.IngredientRepository
 import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity
 import de.weemeal.backend.domain.model.Ingredient
 import de.weemeal.backend.domain.model.Recipe
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
 import java.util.Optional
 import java.util.UUID
 
@@ -24,8 +25,8 @@ class RecipePostgresAdapterTest {
 
     @BeforeEach
     fun setUp() {
-        recipeRepository = mock(RecipeRepository::class.java)
-        ingredientRepository = mock(IngredientRepository::class.java)
+        recipeRepository = mockk<RecipeRepository>()
+        ingredientRepository = mockk<IngredientRepository>()
         recipePostgresAdapter = RecipePostgresAdapter(recipeRepository, ingredientRepository)
     }
 
@@ -34,12 +35,12 @@ class RecipePostgresAdapterTest {
         val recipe = Recipe(UUID.randomUUID(), "Test Recipe", 4, "Instructions", emptyList())
         val recipeEntity = recipe.toEntity()
 
-        `when`(recipeRepository.save(recipeEntity)).thenReturn(recipeEntity)
+        every { recipeRepository.save(recipeEntity) } returns recipeEntity
 
         val savedRecipe = recipePostgresAdapter.save(recipe)
 
         assertEquals(recipe, savedRecipe)
-        verify(recipeRepository, times(1)).save(recipeEntity)
+        verify(exactly = 1) { recipeRepository.save(recipeEntity) }
     }
 
     @Test
@@ -51,7 +52,7 @@ class RecipePostgresAdapterTest {
         val recipe = Recipe(UUID.randomUUID(), "Test Recipe", 4, "Instructions", ingredients)
         val recipeEntity = recipe.toEntity()
 
-        `when`(recipeRepository.save(recipeEntity)).thenReturn(recipeEntity)
+        every { recipeRepository.save(recipeEntity) } returns recipeEntity
 
         val savedRecipe = recipePostgresAdapter.save(recipe)
 
@@ -70,30 +71,30 @@ class RecipePostgresAdapterTest {
             assertEquals("cup", it[1].amount)
         }
 
-        verify(recipeRepository, times(1)).save(recipeEntity)
+        verify(exactly = 1) { recipeRepository.save(recipeEntity) }
     }
 
     @Test
     fun `should find a recipe by id`() {
         val recipeId = UUID.randomUUID()
         val recipeEntity = RecipeEntity(recipeId, "Test Recipe", 4, "Instructions", emptyList())
-        `when`(recipeRepository.findById(recipeId)).thenReturn(Optional.of(recipeEntity))
+
+        every { recipeRepository.findById(recipeId) } returns Optional.of(recipeEntity)
 
         val recipe = recipePostgresAdapter.findRecipe(recipeId)
 
         assertNotNull(recipe)
         assertEquals(recipeId, recipe?.recipeId)
-        verify(recipeRepository, times(1)).findById(recipeId)
+        verify(exactly = 1) { recipeRepository.findById(recipeId) }
     }
 
     @Test
     fun `should delete a recipe by id`() {
         val recipeId = UUID.randomUUID()
 
+        every { recipeRepository.deleteById(recipeId) } just Runs
         recipePostgresAdapter.deleteRecipe(recipeId)
 
-        verify(recipeRepository, times(1)).deleteById(recipeId)
+        verify(exactly = 1) { recipeRepository.deleteById(recipeId) }
     }
-
-
 }
