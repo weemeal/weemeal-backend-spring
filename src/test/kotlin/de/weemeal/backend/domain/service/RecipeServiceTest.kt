@@ -3,15 +3,12 @@ package de.weemeal.backend.domain.service
 import de.weemeal.backend.domain.model.Recipe
 import de.weemeal.backend.domain.port.out.RecipeRepositoryPort
 import de.weemeal.backend.testdata.IngredientTestData
-import io.mockk.Runs
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.util.UUID
 
 class RecipeServiceTest {
@@ -72,23 +69,11 @@ class RecipeServiceTest {
 
         every { recipeRepositoryPort.findRecipe(recipeId) } returns existingRecipe
         every { recipeRepositoryPort.save(any<Recipe>()) } returns updatedRecipe
-        every { recipeRepositoryPort.removeIngredient(any()) } just Runs
 
-        val result = recipeService.updateRecipe(updatedRecipe)
+        val result = recipeService.saveRecipe(updatedRecipe)
 
         assertEquals(updatedRecipe.ingredients.size, result.ingredients.size)
-        verify(exactly = 1) { recipeRepositoryPort.removeIngredient(cheese) }
         verify(exactly = 1) { recipeRepositoryPort.save(updatedRecipe) }
-    }
-
-    @Test
-    fun `should throw exception when recipe not found`() {
-        every { recipeRepositoryPort.findRecipe(any()) } returns null
-
-        val exception = assertThrows<IllegalArgumentException> {
-            recipeService.updateRecipe(Recipe())
-        }
-        assertEquals("Rezept nicht gefunden", exception.message)
     }
 }
 

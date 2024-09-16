@@ -25,7 +25,11 @@ data class RecipeEntity(
     @Column(columnDefinition = "TEXT")
     var recipeInstructions: String? = null,
 
-    @OneToMany(mappedBy = "recipeEntity", cascade = [CascadeType.ALL])
+    @OneToMany(
+        mappedBy = "recipeEntity",
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true
+    )
     var ingredients: List<IngredientEntity>? = null,
 ){
     init {
