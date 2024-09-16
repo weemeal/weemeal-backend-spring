@@ -2,7 +2,6 @@ package de.weemeal.backend.adapter.out
 
 import de.weemeal.backend.adapter.mapper.RecipeMapper.toEntity
 import de.weemeal.backend.adapter.out.persistence.RecipeRepository
-import de.weemeal.backend.adapter.out.persistence.entity.IngredientRepository
 import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity
 import de.weemeal.backend.testdata.IngredientTestData
 import de.weemeal.backend.testdata.RecipeTestData
@@ -21,14 +20,12 @@ import java.util.UUID
 class RecipePostgresAdapterTest {
 
     private lateinit var recipeRepository: RecipeRepository
-    private lateinit var ingredientRepository: IngredientRepository
     private lateinit var recipePostgresAdapter: RecipePostgresAdapter
 
     @BeforeEach
     fun setUp() {
         recipeRepository = mockk<RecipeRepository>()
-        ingredientRepository = mockk<IngredientRepository>()
-        recipePostgresAdapter = RecipePostgresAdapter(recipeRepository, ingredientRepository)
+        recipePostgresAdapter = RecipePostgresAdapter(recipeRepository)
     }
 
     @Test
