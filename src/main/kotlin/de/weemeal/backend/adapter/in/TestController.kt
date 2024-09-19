@@ -75,12 +75,11 @@ class TestController(private val recipePort: RecipePort) {
 
     @GetMapping()
     fun test() {
-        val menuItemsApi = SpoonacularApi().menuItemsApi
+        val spoonacularApi = SpoonacularApi().recipesApi
 
-        // API-Aufruf (z.B. Autocomplete)
         try {
-            val response = menuItemsApi.autocompleteMenuItemSearch("Pizza", 5.toBigDecimal())
-            println("Vorschläge: ${response.results.map { it.title }}")
+            val response = spoonacularApi.searchRecipes(query = "Pizza", number = 1)
+            println("Vorschläge: ${response.results.map { it.image }}")
         } catch (e: Exception) {
             println("Fehler bei der API-Anfrage: ${e.message}")
         }

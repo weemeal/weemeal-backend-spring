@@ -64,6 +64,6 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-apply("src/main/resources/apis/spoonacular/spoonacular-openapi.build.gradle.kts")
+//apply("src/main/resources/apis/spoonacular/spoonacular-openapi.build.gradle.kts")
 
 

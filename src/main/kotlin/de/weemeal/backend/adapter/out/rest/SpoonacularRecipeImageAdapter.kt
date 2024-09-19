@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 @Component
 class SpoonacularRecipeImageAdapter : RecipeImageGeneratorPort {
     override fun generateRecipeImage(recipe: Recipe): String? {
-        val recipes = SpoonacularApi().recipesApi.searchRecipes(query = recipe.name, number = 1)
+        val recipes = SpoonacularApi().recipesApi.searchRecipes(query = recipe.name!!, number = 1)
         return recipes.results.firstOrNull()?.image
     }
 }

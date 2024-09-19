@@ -1,13 +1,13 @@
 package de.weemeal.backend.application
 
-import de.darthkali.weemeal.spoonacular.api.DefaultApi
-import de.darthkali.weemeal.spoonacular.api.IngredientsApi
-import de.darthkali.weemeal.spoonacular.api.MealPlanningApi
-import de.darthkali.weemeal.spoonacular.api.MenuItemsApi
-import de.darthkali.weemeal.spoonacular.api.MiscApi
-import de.darthkali.weemeal.spoonacular.api.ProductsApi
-import de.darthkali.weemeal.spoonacular.api.RecipesApi
-import de.darthkali.weemeal.spoonacular.api.WineApi
+import com.spoonacular.DefaultApi
+import com.spoonacular.IngredientsApi
+import com.spoonacular.MealPlanningApi
+import com.spoonacular.MenuItemsApi
+import com.spoonacular.MiscApi
+import com.spoonacular.ProductsApi
+import com.spoonacular.RecipesApi
+import com.spoonacular.WineApi
 import de.weemeal.backend.application.config.ApiKeyInterceptor
 import io.github.cdimascio.dotenv.dotenv
 import okhttp3.OkHttpClient
