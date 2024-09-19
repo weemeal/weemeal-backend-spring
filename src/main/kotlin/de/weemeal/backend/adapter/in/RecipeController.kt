@@ -50,4 +50,11 @@ class RecipeController(private val recipePort: RecipePort) {
             ResponseEntity(false, HttpStatus.NOT_FOUND)
         }
     }
+
+    @GetMapping("bring/{id}")
+    fun getBringRecipe(
+        @PathVariable("id") recipeId: UUID,
+    ): ResponseEntity<String> {
+        return ResponseEntity.ok(recipePort.generateBringHtml(recipeId = recipeId))
+    }
 }
