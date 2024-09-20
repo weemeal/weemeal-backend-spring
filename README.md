@@ -1,4 +1,5 @@
-![GitHub branch status](https://img.shields.io/github/checks-status/weemeal/weemeal-backend-spring/master)
+![GitHub Release](https://img.shields.io/github/v/release/weemeal/weemeal-backend-spring)
+
 
 # WeeMeal Spring Boot Backend Projekt
 
