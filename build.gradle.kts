@@ -42,7 +42,7 @@ dependencies {
     testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
     testImplementation("io.mockk:mockk:1.13.12")
 
-    runtimeOnly("com.h2database:h2:2.2.224")
+    runtimeOnly("com.h2database:h2:2.3.232")
 
 
 }
