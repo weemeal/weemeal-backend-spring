@@ -6,12 +6,12 @@ import java.util.UUID
 class IngredientTestDataBuilder {
     private var ingredientId: UUID? = null
     private var ingredientName: String? = null
-    private var amount: String? = null
+    private var amount: Float? = null
     private var unit: String? = null
 
     fun ingredientId(ingredientId: UUID) = apply { this.ingredientId = ingredientId }
     fun ingredientName(ingredientName: String) = apply { this.ingredientName = ingredientName }
-    fun amount(amount: String) = apply { this.amount = amount }
+    fun amount(amount: Float) = apply { this.amount = amount }
     fun unit(unit: String) = apply { this.unit = unit }
 
     fun build(): Ingredient = Ingredient(

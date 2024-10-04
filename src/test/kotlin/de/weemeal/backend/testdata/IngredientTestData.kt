@@ -8,7 +8,7 @@ class IngredientTestData {
         return IngredientTestDataBuilder()
             .ingredientId(UUID.randomUUID())
             .ingredientName("Tomaten")
-            .amount("5")
+            .amount(5F)
             .unit("Stk")
     }
 }

@@ -21,8 +21,8 @@ class RecipePostgresAdapterIntegrationTest {
     @Test
     fun `should save and load recipe from database`() {
 
-        val tomato = IngredientTestData().fullyBuild().ingredientName("Tomaten").unit("g").amount("2").build()
-        val salt = IngredientTestData().fullyBuild().ingredientName("Salz").unit("ml").amount("1").build()
+        val tomato = IngredientTestData().fullyBuild().ingredientName("Tomaten").unit("g").amount(2F).build()
+        val salt = IngredientTestData().fullyBuild().ingredientName("Salz").unit("ml").amount(1F).build()
 
         val recipe = RecipeTestData().fullyBuild()
             .name("Test Recipe")
