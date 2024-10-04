@@ -27,19 +27,22 @@ class TestController(private val recipePort: RecipePort) {
                     ingredientId = UUID.randomUUID(),
                     ingredientName = "Zucker",
                     amount = 5.5F,
-                    unit = "g"
+                    unit = "g",
+                    position = 0
                 ),
                 Ingredient(
                     ingredientId = UUID.randomUUID(),
                     ingredientName = "Mehl",
                     amount = 500F,
-                    unit = "ml"
+                    unit = "ml",
+                    position = 1
                 ),
                 Ingredient(
                     ingredientId = UUID.randomUUID(),
                     ingredientName = "Trauben",
                     amount = 30F,
-                    unit = "Stück"
+                    unit = "Stück",
+                    position = 2
                 )
             )
         )
@@ -55,16 +58,18 @@ class TestController(private val recipePort: RecipePort) {
             recipeInstructions = "Kochen für 15 Minuten.",
             ingredients = listOf(
                 Ingredient(
-                ingredientId = UUID.randomUUID(),
-                ingredientName = "Zucker",
+                    ingredientId = UUID.randomUUID(),
+                    ingredientName = "Zucker",
                     amount = 5F,
-                unit = "g"
+                    unit = "g",
+                    position = 0
             ),
                 Ingredient(
                     ingredientId = UUID.randomUUID(),
                     ingredientName = "Mehl",
                     amount = 500F,
-                    unit = "ml"
+                    unit = "ml",
+                    position = 1
                 )
             )
         )
