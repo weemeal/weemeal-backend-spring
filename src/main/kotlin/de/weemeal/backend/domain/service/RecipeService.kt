@@ -37,7 +37,7 @@ class RecipeService(
 
 
         val ingredientsHtml = recipe.ingredients.joinToString(separator = "\n") {
-            "<div itemprop=\"ingredients\">${it.amount} ${it.unit} ${it.ingredientName}</div>"
+            "<div itemprop=\"ingredients\">${it.amount ?: ""} ${it.unit} ${it.ingredientName}</div>"
         }
 
         return """
