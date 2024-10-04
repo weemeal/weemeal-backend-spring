@@ -20,7 +20,7 @@ data class IngredientEntity(
     var ingredientId: UUID?,
     var ingredientName: String? = null,
     var unit: String? = null,
-    var amount: String? = null,
+    var amount: Float? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")

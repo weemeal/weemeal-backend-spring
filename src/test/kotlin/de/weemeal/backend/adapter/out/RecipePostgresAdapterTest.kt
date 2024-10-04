@@ -46,9 +46,9 @@ class RecipePostgresAdapterTest {
     fun `should save a recipe with ingredients`() {
 
         val ingredients = listOf(
-            IngredientTestData().fullyBuild().ingredientName("Tomaten").unit("g").amount("2").build(),
-            IngredientTestData().fullyBuild().ingredientName("Salz").unit("ml").amount("1").build(),
-            IngredientTestData().fullyBuild().ingredientName("Brot").unit("kg").amount("100").build(),
+            IngredientTestData().fullyBuild().ingredientName("Tomaten").unit("g").amount(2F).build(),
+            IngredientTestData().fullyBuild().ingredientName("Salz").unit("ml").amount(1F).build(),
+            IngredientTestData().fullyBuild().ingredientName("Brot").unit("kg").amount(100F).build(),
         )
 
         val recipe = RecipeTestData().fullyBuild()

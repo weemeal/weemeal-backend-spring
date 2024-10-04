@@ -6,5 +6,5 @@ data class Ingredient(
     var ingredientId: UUID? = UUID.randomUUID(),
     var ingredientName: String? = null,
     var unit: String? = null,
-    var amount: String? = null,
+    var amount: Float? = null,
 )
