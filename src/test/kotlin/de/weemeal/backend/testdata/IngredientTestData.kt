@@ -10,5 +10,6 @@ class IngredientTestData {
             .ingredientName("Tomaten")
             .amount(5F)
             .unit("Stk")
+            .position(0)
     }
 }

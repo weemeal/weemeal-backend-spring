@@ -9,7 +9,8 @@ object IngredientMapper {
             ingredientId = this.ingredientId,
             ingredientName = this.ingredientName,
             amount = this.amount,
-            unit = this.unit
+            unit = this.unit,
+            position = this.position
         )
     }
 }

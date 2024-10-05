@@ -7,4 +7,5 @@ data class Ingredient(
     var ingredientName: String? = null,
     var unit: String? = null,
     var amount: Float? = null,
+    var position: Int
 )
