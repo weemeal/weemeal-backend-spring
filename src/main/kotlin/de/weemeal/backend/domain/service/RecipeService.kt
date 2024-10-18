@@ -1,6 +1,7 @@
 package de.weemeal.backend.domain.service
 
 import de.weemeal.backend.domain.model.Recipe
+import de.weemeal.backend.domain.model.ingredient.Ingredient
 import de.weemeal.backend.domain.port.`in`.RecipePort
 import de.weemeal.backend.domain.port.out.RecipeRepositoryPort
 import org.springframework.http.HttpStatus
@@ -35,8 +36,10 @@ class RecipeService(
         val recipe = recipeRepositoryPort.findRecipe(recipeId)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
 
+        val ingredientList: List<Ingredient> = recipe.ingredientListContent
+            .filterIsInstance<Ingredient>()
 
-        val ingredientsHtml = recipe.ingredients.joinToString(separator = "\n") {
+        val ingredientsHtml = ingredientList.joinToString(separator = "\n") {
             "<div itemprop=\"ingredients\">${it.amount ?: ""} ${it.unit} ${it.ingredientName}</div>"
         }
 

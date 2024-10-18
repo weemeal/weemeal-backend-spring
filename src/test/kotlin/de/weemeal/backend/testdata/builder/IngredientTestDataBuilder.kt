@@ -1,6 +1,6 @@
 package de.weemeal.backend.testdata.builder
 
-import de.weemeal.backend.domain.model.Ingredient
+import de.weemeal.backend.domain.model.ingredient.Ingredient
 import java.util.UUID
 
 class IngredientTestDataBuilder {
@@ -17,7 +17,7 @@ class IngredientTestDataBuilder {
     fun position(position: Int) = apply { this.position = position }
 
     fun build(): Ingredient = Ingredient(
-        ingredientId = ingredientId,
+        id = ingredientId,
         ingredientName = ingredientName,
         amount = amount,
         unit = unit,

@@ -1,6 +1,6 @@
 package de.weemeal.backend.adapter.mapper
 
-import de.weemeal.backend.adapter.mapper.IngredientMapper.toEntity
+import de.weemeal.backend.adapter.mapper.IngredientListContentMapper.toEntity
 import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity
 import de.weemeal.backend.domain.model.Recipe
 
@@ -11,7 +11,7 @@ object RecipeMapper {
             name = this.name,
             recipeYield = this.recipeYield,
             recipeInstructions = this.recipeInstructions,
-            ingredients = this.ingredients.map { it.toEntity() }.toList()
+            ingredientListContent = this.ingredientListContent.map { it.toEntity() }.toList()
         )
     }
 }

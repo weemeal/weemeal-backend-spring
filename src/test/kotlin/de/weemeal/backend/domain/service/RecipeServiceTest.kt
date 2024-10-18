@@ -56,7 +56,7 @@ class RecipeServiceTest {
             name = "Pizza",
             recipeYield = 5,
             recipeInstructions = "instruction",
-            ingredients = listOf(tomatoes, cheese)
+            ingredientListContent = listOf(tomatoes, cheese)
         )
 
         val updatedRecipe = Recipe(
@@ -64,7 +64,7 @@ class RecipeServiceTest {
             name = "Pizza Neu",
             recipeYield = 4,
             recipeInstructions = "instruction auch neu",
-            ingredients = listOf(tomatoes, basil, bread)
+            ingredientListContent = listOf(tomatoes, basil, bread)
         )
 
         every { recipeRepositoryPort.findRecipe(recipeId) } returns existingRecipe
@@ -72,7 +72,7 @@ class RecipeServiceTest {
 
         val result = recipeService.saveRecipe(updatedRecipe)
 
-        assertEquals(updatedRecipe.ingredients.size, result.ingredients.size)
+        assertEquals(updatedRecipe.ingredientListContent.size, result.ingredientListContent.size)
         verify(exactly = 1) { recipeRepositoryPort.save(updatedRecipe) }
     }
 }
