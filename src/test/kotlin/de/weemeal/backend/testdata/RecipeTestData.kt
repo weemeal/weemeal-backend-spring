@@ -1,6 +1,6 @@
 package de.weemeal.backend.testdata
 
-import de.weemeal.backend.domain.model.Ingredient
+import de.weemeal.backend.domain.model.ingredient.Ingredient
 import de.weemeal.backend.testdata.builder.RecipeTestDataBuilder
 import java.util.UUID
 

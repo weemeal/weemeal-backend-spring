@@ -1,5 +1,6 @@
 package de.weemeal.backend.adapter.out
 
+import de.weemeal.backend.domain.model.ingredient.Ingredient
 import de.weemeal.backend.testdata.IngredientTestData
 import de.weemeal.backend.testdata.RecipeTestData
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -37,8 +38,8 @@ class RecipePostgresAdapterIntegrationTest {
         assertNotNull(loadedRecipe)
         assertEquals("Test Recipe", loadedRecipe?.name)
 
-        val loadedIngredients = loadedRecipe?.ingredients ?: emptyList()
-        assertEquals(tomato.ingredientName, loadedIngredients[0].ingredientName)
-        assertEquals(salt.ingredientName, loadedIngredients[1].ingredientName)
+        val loadedIngredients = loadedRecipe?.ingredientListContent ?: emptyList()
+        assertEquals(tomato.ingredientName, (loadedIngredients[0] as Ingredient).ingredientName)
+        assertEquals(salt.ingredientName, (loadedIngredients[1] as Ingredient).ingredientName)
     }
 }

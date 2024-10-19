@@ -3,6 +3,7 @@ package de.weemeal.backend.adapter.out
 import de.weemeal.backend.adapter.mapper.RecipeMapper.toEntity
 import de.weemeal.backend.adapter.out.persistence.RecipeRepository
 import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity
+import de.weemeal.backend.domain.model.ingredient.Ingredient
 import de.weemeal.backend.testdata.IngredientTestData
 import de.weemeal.backend.testdata.RecipeTestData
 import io.mockk.Runs
@@ -68,10 +69,11 @@ class RecipePostgresAdapterTest {
         assertEquals(recipe.name, savedRecipe.name)
         assertEquals(recipe.recipeYield, savedRecipe.recipeYield)
         assertEquals(recipe.recipeInstructions, savedRecipe.recipeInstructions)
-        assertEquals(recipe.ingredients.size, savedRecipe.ingredients.size)
+        assertEquals(recipe.ingredientListContent.size, savedRecipe.ingredientListContent.size)
 
-        savedRecipe.ingredients.let { savedIngredients ->
+        savedRecipe.ingredientListContent.let { savedIngredients ->
             savedIngredients.forEachIndexed { index, savedIngredient ->
+                savedIngredient as Ingredient
                 assertEquals(savedIngredient.ingredientName, ingredients[index].ingredientName)
                 assertEquals(savedIngredient.amount, ingredients[index].amount)
                 assertEquals(savedIngredient.unit, ingredients[index].unit)

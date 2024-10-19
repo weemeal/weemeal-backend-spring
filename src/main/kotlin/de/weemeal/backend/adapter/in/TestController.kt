@@ -1,7 +1,8 @@
 package de.weemeal.backend.adapter.`in`
 
-import de.weemeal.backend.domain.model.Ingredient
 import de.weemeal.backend.domain.model.Recipe
+import de.weemeal.backend.domain.model.ingredient.Ingredient
+import de.weemeal.backend.domain.model.ingredient.SectionCaption
 import de.weemeal.backend.domain.port.`in`.RecipePort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -22,23 +23,21 @@ class TestController(private val recipePort: RecipePort) {
             name = "Statisches Rezept",
             recipeYield = 4,
             recipeInstructions = "Mische alle Zutaten zusammen und koche für 20 Minuten.",
-            ingredients = listOf(
+            ingredientListContent = listOf(
                 Ingredient(
-                    ingredientId = UUID.randomUUID(),
+                    id = UUID.randomUUID(),
                     ingredientName = "Zucker",
                     amount = 5.5F,
                     unit = "g",
                     position = 0
                 ),
-                Ingredient(
-                    ingredientId = UUID.randomUUID(),
-                    ingredientName = "Mehl",
-                    amount = 500F,
-                    unit = "ml",
+                SectionCaption(
+                    id = UUID.randomUUID(),
+                    sectionName = "Ein Section Name",
                     position = 1
                 ),
                 Ingredient(
-                    ingredientId = UUID.randomUUID(),
+                    id = UUID.randomUUID(),
                     ingredientName = "Trauben",
                     amount = 30F,
                     unit = "Stück",
@@ -56,16 +55,16 @@ class TestController(private val recipePort: RecipePort) {
             name = "TestRezept",
             recipeYield = 2,  // Statischer Wert
             recipeInstructions = "Kochen für 15 Minuten.",
-            ingredients = listOf(
+            ingredientListContent = listOf(
                 Ingredient(
-                    ingredientId = UUID.randomUUID(),
+                    id = UUID.randomUUID(),
                     ingredientName = "Zucker",
                     amount = 5F,
                     unit = "g",
                     position = 0
             ),
                 Ingredient(
-                    ingredientId = UUID.randomUUID(),
+                    id = UUID.randomUUID(),
                     ingredientName = "Mehl",
                     amount = 500F,
                     unit = "ml",

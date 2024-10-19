@@ -1,5 +1,6 @@
 package de.weemeal.backend.domain.model
 
+import de.weemeal.backend.domain.model.ingredient.IngredientListContent
 import java.util.UUID
 
 data class Recipe(
@@ -7,5 +8,5 @@ data class Recipe(
     var name: String? = null,
     var recipeYield: Int? = null,
     var recipeInstructions: String? = null,
-    var ingredients: List<Ingredient> = emptyList(),
+    var ingredientListContent: List<IngredientListContent> = emptyList(),
 )

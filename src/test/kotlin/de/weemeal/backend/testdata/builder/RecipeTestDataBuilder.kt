@@ -1,7 +1,7 @@
 package de.weemeal.backend.testdata.builder
 
-import de.weemeal.backend.domain.model.Ingredient
 import de.weemeal.backend.domain.model.Recipe
+import de.weemeal.backend.domain.model.ingredient.Ingredient
 import java.util.UUID
 
 class RecipeTestDataBuilder {
@@ -23,6 +23,6 @@ class RecipeTestDataBuilder {
         name = name,
         recipeYield = recipeYield,
         recipeInstructions = recipeInstructions,
-        ingredients = ingredients!!
+        ingredientListContent = ingredients!!
     )
 }

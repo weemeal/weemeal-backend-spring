@@ -1,6 +1,6 @@
 package de.weemeal.backend.adapter.out.persistence.entity
 
-import de.weemeal.backend.adapter.out.persistence.entity.IngredientEntity.Companion.toDomain
+import de.weemeal.backend.adapter.out.persistence.entity.IngredientListContentEntity.Companion.toDomain
 import de.weemeal.backend.domain.model.Recipe
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -30,10 +30,10 @@ data class RecipeEntity(
         cascade = [CascadeType.ALL],
         orphanRemoval = true
     )
-    var ingredients: List<IngredientEntity>? = null,
+    var ingredientListContent: List<IngredientListContentEntity>? = null,
 ){
     init {
-        ingredients?.forEach { it.recipeEntity = this }
+        ingredientListContent?.forEach { it.recipeEntity = this }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -58,7 +58,7 @@ data class RecipeEntity(
                 name = this.name,
                 recipeYield = this.recipeYield,
                 recipeInstructions = this.recipeInstructions,
-                ingredients = this.ingredients?.map { it.toDomain() } ?: emptyList(),
+                ingredientListContent = this.ingredientListContent?.map { it.toDomain() } ?: emptyList(),
             )
         }
 
