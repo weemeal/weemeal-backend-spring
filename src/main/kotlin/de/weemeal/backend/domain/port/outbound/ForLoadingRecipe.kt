@@ -1,11 +1,9 @@
-package de.weemeal.backend.domain.port.out
+package de.weemeal.backend.domain.port.outbound
 
 import de.weemeal.backend.domain.model.Recipe
 import java.util.UUID
 
-interface RecipeRepositoryPort {
-    fun save(recipe: Recipe): Recipe
+interface ForLoadingRecipe {
     fun findAllRecipes(): List<Recipe>?
     fun findRecipe(recipeId: UUID): Recipe?
-    fun deleteRecipe(recipeId: UUID)
 }
