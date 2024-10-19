@@ -1,6 +1,7 @@
 package de.weemeal.backend.adapter.`in`
 
 import de.weemeal.backend.domain.model.Recipe
+import de.weemeal.backend.domain.model.RecipeId.Companion.toRecipeId
 import de.weemeal.backend.domain.port.inbound.ForGettingIngredientList
 import de.weemeal.backend.domain.port.inbound.ForHandlingRecipePort
 import org.springframework.http.HttpStatus
@@ -25,18 +26,14 @@ class RecipeController(
     @PostMapping("")
     fun saveRecipe(@RequestBody recipe: Recipe): ResponseEntity<Recipe> {
         val savedRecipe = forHandlingRecipePort.saveRecipe(recipe)
-        return if (recipe.recipeId == null) {
-            ResponseEntity(savedRecipe, HttpStatus.CREATED)
-        } else {
-            ResponseEntity(savedRecipe, HttpStatus.OK)
-        }
+        return ResponseEntity(savedRecipe, HttpStatus.CREATED)
     }
 
     @GetMapping("{id}")
     fun getRecipe(
         @PathVariable("id") recipeId: String,
     ): ResponseEntity<Recipe> {
-        val recipe = forHandlingRecipePort.getRecipe(recipeId = UUID.fromString(recipeId))
+        val recipe = forHandlingRecipePort.getRecipe(recipeId = recipeId.toRecipeId())
         return ResponseEntity.ok(recipe)
     }
 
@@ -49,7 +46,7 @@ class RecipeController(
     fun deleteRecipe(
         @PathVariable("id") recipeId: String,
     ): ResponseEntity<Boolean> {
-        return if (forHandlingRecipePort.deleteRecipe(UUID.fromString(recipeId))) {
+        return if (forHandlingRecipePort.deleteRecipe(recipeId.toRecipeId())) {
             ResponseEntity(true, HttpStatus.OK)
         } else {
             ResponseEntity(false, HttpStatus.NOT_FOUND)
@@ -60,7 +57,7 @@ class RecipeController(
     fun getBringRecipe(
         @PathVariable("id") recipeId: UUID,
     ): ResponseEntity<String> {
-        val recipe = forHandlingRecipePort.getRecipe(recipeId = recipeId)
+        val recipe = forHandlingRecipePort.getRecipe(recipeId = recipeId.toRecipeId())
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
 
         val ingredientList = forGettingIngredientList.filterIngredientsFromRecipe(recipe)

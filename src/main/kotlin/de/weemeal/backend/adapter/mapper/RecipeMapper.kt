@@ -7,7 +7,7 @@ import de.weemeal.backend.domain.model.Recipe
 object RecipeMapper {
     fun Recipe.toEntity(): RecipeEntity {
         return RecipeEntity(
-            recipeId = this.recipeId,
+            recipeId = this.recipeId.value,
             name = this.name,
             recipeYield = this.recipeYield,
             recipeInstructions = this.recipeInstructions,

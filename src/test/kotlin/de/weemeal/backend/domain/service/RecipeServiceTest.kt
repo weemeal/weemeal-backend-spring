@@ -1,6 +1,7 @@
 package de.weemeal.backend.domain.service
 
 import de.weemeal.backend.domain.model.Recipe
+import de.weemeal.backend.domain.model.RecipeId
 import de.weemeal.backend.domain.port.outbound.ForDeletingRecipe
 import de.weemeal.backend.domain.port.outbound.ForLoadingRecipe
 import de.weemeal.backend.domain.port.outbound.ForSavingRecipe
@@ -11,7 +12,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.UUID
 
 class RecipeServiceTest {
 
@@ -28,7 +28,7 @@ class RecipeServiceTest {
 
     @Test
     fun `should update recipe and remove ingredients`() {
-        val recipeId = UUID.randomUUID()
+        val recipeId = RecipeId()
 
         val tomatoes = IngredientTestData().fullyBuild().ingredientName("Tomaten").build()
         val cheese = IngredientTestData().fullyBuild().ingredientName("Käse").build()
