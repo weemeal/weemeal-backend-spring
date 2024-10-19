@@ -92,10 +92,16 @@ internal class MainArchitectureTests {
     @ArchTest
     val `check ports`: ArchRule = classes()
         .that().haveSimpleNameEndingWith("Port")
-        .or().resideInAPackage(portsPackage)
+        .and().areTopLevelClasses()
+        .should().resideInAPackage(portsPackage)
+        .andShould().beInterfaces()
+
+    @ArchTest
+    val `check ports For`: ArchRule = classes()
+        .that().resideInAPackage(portsPackage)
         .and().areTopLevelClasses()
         .should().haveSimpleNameEndingWith("Port")
-        .andShould().resideInAPackage(portsPackage)
+        .orShould().haveSimpleNameStartingWith("For")
         .andShould().beInterfaces()
 
     /**

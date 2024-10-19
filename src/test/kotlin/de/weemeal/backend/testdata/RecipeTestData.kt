@@ -1,13 +1,13 @@
 package de.weemeal.backend.testdata
 
+import de.weemeal.backend.domain.model.RecipeId
 import de.weemeal.backend.domain.model.ingredient.Ingredient
 import de.weemeal.backend.testdata.builder.RecipeTestDataBuilder
-import java.util.UUID
 
 class RecipeTestData {
     fun fullyBuild(amountOfIngredients: Int = 0): RecipeTestDataBuilder {
         return RecipeTestDataBuilder()
-            .recipeId(UUID.randomUUID())
+            .recipeId(RecipeId())
             .name("Pizza")
             .recipeYield(3)
             .recipeInstructions("Irgendein Text")

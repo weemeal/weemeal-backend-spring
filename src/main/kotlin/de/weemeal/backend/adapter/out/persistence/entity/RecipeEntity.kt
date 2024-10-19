@@ -2,6 +2,7 @@ package de.weemeal.backend.adapter.out.persistence.entity
 
 import de.weemeal.backend.adapter.out.persistence.entity.IngredientListContentEntity.Companion.toDomain
 import de.weemeal.backend.domain.model.Recipe
+import de.weemeal.backend.domain.model.RecipeId.Companion.toRecipeId
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -18,7 +19,7 @@ import java.util.UUID
 data class RecipeEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    var recipeId: UUID?,
+    var recipeId: UUID = UUID.randomUUID(),
     var name: String? = null,
     var recipeYield: Int? = null,
 
@@ -54,7 +55,7 @@ data class RecipeEntity(
     companion object{
         fun RecipeEntity.toDomain(): Recipe {
             return Recipe(
-                recipeId = this.recipeId,
+                recipeId = this.recipeId.toRecipeId(),
                 name = this.name,
                 recipeYield = this.recipeYield,
                 recipeInstructions = this.recipeInstructions,

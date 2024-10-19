@@ -3,6 +3,7 @@ package de.weemeal.backend.adapter.out
 import de.weemeal.backend.adapter.mapper.RecipeMapper.toEntity
 import de.weemeal.backend.adapter.out.persistence.RecipeRepository
 import de.weemeal.backend.adapter.out.persistence.entity.RecipeEntity
+import de.weemeal.backend.domain.model.RecipeId
 import de.weemeal.backend.domain.model.ingredient.Ingredient
 import de.weemeal.backend.testdata.IngredientTestData
 import de.weemeal.backend.testdata.RecipeTestData
@@ -16,7 +17,6 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.Optional
-import java.util.UUID
 
 class RecipePostgresAdapterTest {
 
@@ -85,25 +85,25 @@ class RecipePostgresAdapterTest {
 
     @Test
     fun `should find a recipe by id`() {
-        val recipeId = UUID.randomUUID()
-        val recipeEntity = RecipeEntity(recipeId, "Test Recipe", 4, "Instructions", emptyList())
+        val recipeId = RecipeId()
+        val recipeEntity = RecipeEntity(recipeId.value, "Test Recipe", 4, "Instructions", emptyList())
 
-        every { recipeRepository.findById(recipeId) } returns Optional.of(recipeEntity)
+        every { recipeRepository.findById(recipeId.value) } returns Optional.of(recipeEntity)
 
         val recipe = recipePostgresAdapter.findRecipe(recipeId)
 
         assertNotNull(recipe)
         assertEquals(recipeId, recipe?.recipeId)
-        verify(exactly = 1) { recipeRepository.findById(recipeId) }
+        verify(exactly = 1) { recipeRepository.findById(recipeId.value) }
     }
 
     @Test
     fun `should delete a recipe by id`() {
-        val recipeId = UUID.randomUUID()
+        val recipeId = RecipeId()
 
-        every { recipeRepository.deleteById(recipeId) } just Runs
+        every { recipeRepository.deleteById(recipeId.value) } just Runs
         recipePostgresAdapter.deleteRecipe(recipeId)
 
-        verify(exactly = 1) { recipeRepository.deleteById(recipeId) }
+        verify(exactly = 1) { recipeRepository.deleteById(recipeId.value) }
     }
 }
